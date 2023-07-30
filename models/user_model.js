@@ -45,16 +45,28 @@ const userSchema= new Schema({
     intro : {
         type : String,
         maxLength:140,
-        default : ""
+        default : null
     },
+    imageUrls: [{
+        type : String,
+        default : null
+    }],
     deviceToken : {
         type : String,
-        default : ""
+        default : null
     },
-    images :{
+    blockedUsers : {
         type : Array,
-        default : []
+        default : null
     },
+    blockedByUserd : [{
+        type : String,
+        default : null
+    }],
+    sentFriendRequests: [{
+        type : String,
+        default : null
+    }],
     accountStatus : {
         type : String,  
         default : "now"

@@ -11,7 +11,7 @@ const UserController = {
           await newUser.save();
           return res.json({ success: true, data: newUser, message: "User Created Successfully!" });
         } catch (error) {
-            res.json({ error: error.message })
+          return res.json({ success: false, message: "Server Error"});
         }
     },
 
@@ -24,7 +24,7 @@ const UserController = {
               return res.json({ success: false, message: "User not found!" });
           }
 
-          const passwordsMatch = bcrypt.compareSync(password, foundUser.password);
+          const passwordsMatch = bcrypt.compare(password, foundUser.password);
           if(!passwordsMatch) {
               return res.json({ success: false, message: "Incorrect password!" });
           }
@@ -34,6 +34,33 @@ const UserController = {
           return res.json({ success: true, data: foundUser });
         }
         catch(ex) {
+          return res.json({ success: false, message: "Server Error"});
+        }
+      },
+
+      getAllUsers: async function(req, res){
+        try{
+          const currentUserId = req.body.currentUserId; // Change the field name to match what you send from Flutter
+          // Fetch the current user from the database
+          const currentUser = await userModel.findById(currentUserId);
+          // Fetch all users from the database (excluding the password field)
+          const allUsers = await userModel.find({}, '-password');
+          // Get an array of user IDs to exclude from the response
+          const blockedUsersIds = currentUser.blockedUsers;
+          const blockedByUsersIds = currentUser.blockedByUserd;
+          const sentFriendRequestsIds = currentUser.sentFriendRequests;
+          // Filter out users based on blocked users, blocked by users, and users with sent friend requests
+          const filteredUsers = allUsers.filter((user) => {
+            return (
+              user.id !== currentUserId &&
+              !blockedUsersIds.includes(user.id) &&
+              !blockedByUsersIds.includes(user.id) &&
+              !sentFriendRequestsIds.includes(user.id)
+              );
+            });
+
+          return res.json({ success: true, data: filteredUsers, message: "Successfully! get users" });
+        }catch(ex) {
           return res.json({ success: false, message: ex });
         }
       }
