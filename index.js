@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const socketIo = require("socket.io");
+const http = require("http");
 
 
 const app = express();
@@ -29,7 +31,11 @@ mongoose.connect(process.env.MONGO_URI)
 const userRoutes = require('./routes/user_routes');
 app.use("/api/user", userRoutes);
 
+const server = http.createServer(app);
+const io = socketIo(server);
+
     // listen for request
-app.listen(process.env.PORT, () => console.log("Listening on port 4000"));
+// app.listen(process.env.PORT, () => console.log("Listening on port 4000"));
+server.listen(process.env.PORT, () => console.log("Listening on port 4000"));
 
 module.exports = {app}

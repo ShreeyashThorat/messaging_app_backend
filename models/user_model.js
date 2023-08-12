@@ -23,7 +23,7 @@ const userSchema= new Schema({
         required : true,
     },
     gender : {
-        type : String, 
+        type : String,
         required : true,
     },
     dob : {
@@ -68,15 +68,15 @@ const userSchema= new Schema({
         default : null
     }],
     accountStatus : {
-        type : String,  
+        type : String,
         default : "now"
     }
-    
+
 },{timestamps:true});
 
 userSchema.pre('save', function(next){
 
-    const salt = bcrypt.genSaltSync(10); 
+    const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(this.password, salt);
     this.password = hash;
 
