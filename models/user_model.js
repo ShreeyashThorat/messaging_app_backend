@@ -55,10 +55,10 @@ const userSchema= new Schema({
         type : String,
         default : null
     },
-    blockedUsers : {
-        type : Array,
+    blockedUsers : [{
+        type : String,
         default : null
-    },
+    }],
     blockedByUserd : [{
         type : String,
         default : null
