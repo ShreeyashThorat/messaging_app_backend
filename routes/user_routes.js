@@ -8,6 +8,6 @@ userRoutes.post("/login", UserController.login);
 userRoutes.post("/getUser/all", UserController.getAllUsers);
 
 // friend requests
-userRoutes.post("sendRequest", FrinedRequestController.friendRequest);
+userRoutes.post("/sendRequest", FrinedRequestController.friendRequest);
 
 module.exports = userRoutes;

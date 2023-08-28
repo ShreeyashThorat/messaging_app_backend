@@ -5,11 +5,12 @@ const mongoose = require('mongoose');
 const FrinedRequestController = {
     friendRequest : async function(req, res) {
         try {
-            const { senderId, receiverId } = req.body;
+            const { senderId, receiverId, requestMsg,  } = req.body;
 
             const newFriendRequest = new frinedRequestModel({
                 senderId,
                 receiverId,
+                requestMsg
             });
 
         await newFriendRequest.save();
